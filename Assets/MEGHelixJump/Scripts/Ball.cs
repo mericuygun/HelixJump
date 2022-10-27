@@ -6,7 +6,7 @@ public class Ball : MonoBehaviour
 {
     public Rigidbody rb;
     public float jumpForce;
-    
+    public GameObject crackPrefab;
     void Start()
     {
         
@@ -20,19 +20,29 @@ public class Ball : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        rb.AddForce(Vector3.up * jumpForce);
+        rb.velocity = new Vector3(0, jumpForce, 0);
+
+        GameObject crack = Instantiate(crackPrefab, transform.position + new Vector3(0f, -0.242f, 0f), transform.rotation);
+        crack.transform.SetParent(other.gameObject.transform);
 
         string materialName = other.gameObject.GetComponent<MeshRenderer>().material.name;
         Debug.Log("Materyal Adý: " + materialName);
 
-        if(materialName == "Safe Colour") 
+        if(materialName == "Safe Colour (Instance)") 
         { 
-            destroy.
+            //destroy.
+        }
+        else if(materialName == "Unsafe Colour (Instance)")
+        {
+            Debug.Log("Game Over!");
+        }
+        else if(materialName == "Last Ring (Instance)")
+        {
+            Debug.Log("Finish!");
         }
 
     }
 
-    private DestroyBall()
-
+    
 
 }
